@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 """
-predict.py - Breast Density Analysis Inference Script
-
-This script performs inference on mammogram images to:
+predict.py - Breast Density Analysis Inference Script |(c) itrustal.com
+Provisions:
 1. Segment breast density tissue
 2. Calculate percentage breast density (PBD)
 3. Directly classify BI-RADS category
-4. Create visual overlays and save results as DICOM files
-
-Author: Obi[Linkou_CGMH]
+4. Create visual overlays and save results as DICOM files 
 """
 import os
 import sys
@@ -91,13 +88,8 @@ def parse_args():
 
 def load_dicom(path):
     """
-    Load DICOM image and return preprocessed array.
-
-    Args:
-        path: Path to DICOM file
-
-    Returns:
-        tuple: (preprocessed_image, original_dicom_object, window_center, window_width)
+    Load DICOM image and return preprocessed array 
+    Returns - tuple: (preprocessed_image, original_dicom_object, window_center, window_width)
     """
     try:
         dcm = pydicom.dcmread(path, force=True)
@@ -178,14 +170,8 @@ def load_dicom(path):
 
 def preprocess_image(image, target_size=(OUTPUT_SIZE, OUTPUT_SIZE)):
     """
-    Preprocess image for model input.
-
-    Args:
-        image: Input image (numpy array)
-        target_size: Target size for resizing
-
-    Returns:
-        tuple: (tensor, original_size, padding_info)
+    Preprocess image for model input 
+    Returns - tuple: (tensor, original_size, padding_info)
     """
     h, w = image.shape[:2]
     scale = min(target_size[0] / h, target_size[1] / w)
@@ -215,13 +201,9 @@ def preprocess_image(image, target_size=(OUTPUT_SIZE, OUTPUT_SIZE)):
 
 def get_colormap_for_birads(birads_category):
     """
-    Return an appropriate colormap based on BI-RADS category.
-
-    Args:
-        birads_category (int): BI-RADS category (1-4)
-
-    Returns:
-        int: OpenCV colormap code
+    Return appropriate colormap based on BI-RADS category
+    Args - birads_category (int): BI-RADS category (1-4)
+    Returns - int: OpenCV colormap code
     """
     # Use different colormaps for different BI-RADS categories
     # BI-RADS 1-2: Green to Blue spectrum (less dense)
@@ -234,14 +216,8 @@ def get_colormap_for_birads(birads_category):
 
 def enhance_segmentation_visibility(mask, threshold=0.2):
     """
-    Enhance the visibility of the segmentation mask.
-
-    Args:
-        mask (numpy.ndarray): Raw segmentation mask with values between 0 and 1
-        threshold (float): Threshold for binary segmentation
-
-    Returns:
-        numpy.ndarray: Enhanced mask
+    Enhance the visibility of the segmentation mask 
+    Returns - numpy.ndarray: Enhanced mask
     """
     # Apply threshold to create a binary segmentation
     binary_mask = (mask > threshold).astype(np.float32)
@@ -256,7 +232,6 @@ def enhance_segmentation_visibility(mask, threshold=0.2):
 def create_overlay(original_image, density_mask, predicted_percentage, birads_category, birads_text, blend_alpha=0.7):
     """
     Create colored overlay with BI-RADS text and visualization.
-
     Args:
         original_image (numpy.ndarray): Original mammogram image
         density_mask (numpy.ndarray): Predicted density mask
@@ -264,7 +239,6 @@ def create_overlay(original_image, density_mask, predicted_percentage, birads_ca
         birads_category (int): Predicted BI-RADS category (1-4)
         birads_text (str): BI-RADS classification text
         blend_alpha (float): Alpha value for blending
-
     Returns:
         numpy.ndarray: Overlay image with improved quality and larger text
     """
