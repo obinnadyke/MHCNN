@@ -1,4 +1,4 @@
-# Unified Breast Density Segmentation and BI-RADS Class Estimation in 2D Mammograms with Multi-Head Convolutional Neural Network (MHCNN)
+# [Unified Breast Density Segmentation and BI-RADS Class Estimation in 2D Mammograms with Multi-Head Convolutional Neural Network (MHCNN)](https://openreview.net/forum?id=fwmKiBGvD5#discussion) 
 
 This repository contains the official implementation of joint 2D breast mammogram segmentation and BI-RADS classification radiomics. This codebase performs the following tasks: 
 
@@ -134,7 +134,7 @@ The ``src`` codebase is divided into the following modular components:
 - **predict.py**: Inference script for analyzing mammograms
 
 ### Preprocess Dataset Analysis 
-590 data samples from VinDr-Mammo benchmark 
+590 data samples from [VinDr-Mammo](https://physionet.org/content/vindr-mammo/1.0.0/) benchmark 
 
 <table>
   <tr>
@@ -178,4 +178,4 @@ BibTex:
 ```
 
 ## Acknowledgements
-This work was sponsored by CAIM: Linkou, Chang Gung Memorial Hospital, under project grant no. CLRPG3H0016
+This work was sponsored by CAIM: Linkou, Chang Gung Memorial Hospital, under project grant no. CLRPG3H0016. 
