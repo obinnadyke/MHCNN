@@ -1,6 +1,6 @@
 # [Unified Breast Density Segmentation and BI-RADS Class Estimation in 2D Mammograms with Multi-Head Convolutional Neural Network (MHCNN)](https://openreview.net/forum?id=fwmKiBGvD5#discussion)
 
-This repository contains the official implementation of the joint 2D breast mammogram segmentation and BI-RADS classification radiomics published at [2025 MIDL](https://openreview.net/pdf?id=fwmKiBGvD5) Short-Papers. This codebase performs the following tasks: 
+This repository contains the official implementation of joint 2D breast mammogram segmentation and BI-RADS classification radiomics published at [2025 MIDL](https://openreview.net/pdf?id=fwmKiBGvD5) Short-Papers. This codebase performs the following tasks: 
 
 1. Breast tissue segmentation (pixel-level)
 2. Breast density percentage regression (global prediction)
