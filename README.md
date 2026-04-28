@@ -92,8 +92,11 @@ The multi-head CNN model uses a triple-pathway architecture:
 2. **Regression Path**: Predicts global density percentage
 3. **Classification Path**: Explicitly classifies into BI-RADS categories
 
+<div align="center">
+  <img src="asset/mh_cnn.pdf" alt="" width="700"/>
+</div>
 
-The architecture is based on a standard segmentation backbone (default: Unet with ResNet-101 encoder), with additional classification and regression branches attached to the encoder features.
+The architecture is based on a standard segmentation backbone (ResNet-101 encoder), with additional classification and regression branches.
 
 
 ## Project Structure
