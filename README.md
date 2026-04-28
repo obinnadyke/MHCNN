@@ -125,8 +125,8 @@ The ``src`` codebase is divided into the following modular components:
 590 data samples from VinDr-Mammo benchmark 
 
 <p align="center">
-  <img src="asset/dense_distrib.png" width="200%" />
-  <img src="asset/birads_distrib.png" width="200%" />
+  <img src="asset/dense_distrib.png" width="50%" />
+  <img src="asset/birads_distrib.png" width="50%" />
 </p>
 
 
