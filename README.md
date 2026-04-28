@@ -157,9 +157,9 @@ Training produces:
 - Density distribution plots
 - Detailed training summary 
 
-<p align="center">
-  <img src="asset/seg_viz.png" width="50%" />
-  <img src="asset/inference1.png" width="50%" />
+<p align="left">
+  <img src="asset/seg_viz.png" width="70%" />
+  <img src="asset/inference1.png" width="70%" />
 </p>
 
 Inference produces:
