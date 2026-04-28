@@ -1,5 +1,5 @@
 """
-device_checker.py - Utilities for verifying device placement and managing multi-GPU usage 
+device_checker.py - Utility for device placement and multi-GPU management |(c) itrustal.com 
 """
 
 import os
