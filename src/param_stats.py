@@ -1,8 +1,5 @@
 """
-param_stats.py - Utilities for model parameter counting and statistics
-
-This module provides functions for counting model parameters, estimating FLOPs,
-and calculating memory usage for deep learning models.
+param_stats.py - Utilities for model parameter counting and statistics (c) itrustal.com
 """
 import torch
 import numpy as np
@@ -10,13 +7,7 @@ import numpy as np
 
 def count_parameters(model):
     """
-    Count trainable and total parameters in the model
-    
-    Args:
-        model (torch.nn.Module): PyTorch model
-        
-    Returns:
-        tuple: (trainable_params, total_params)
+    Count trainable and total parameters in the model 
     """
     trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total_params = sum(p.numel() for p in model.parameters())
@@ -26,12 +17,7 @@ def count_parameters(model):
 def format_number(num):
     """
     Format large numbers for readability
-    
-    Args:
-        num (int or float): Number to format
-        
-    Returns:
-        str: Formatted number string (e.g., "10.5M")
+    Returns - str: Formatted number string (e.g., "10.5M")
     """
     if num >= 1e9:
         return f"{num/1e9:.2f}B"
@@ -45,12 +31,7 @@ def format_number(num):
 def calculate_memory_usage(model):
     """
     Calculate estimated memory usage for model parameters and buffers
-    
-    Args:
-        model (torch.nn.Module): PyTorch model
-        
-    Returns:
-        tuple: (param_size_mb, buffer_size_mb, total_size_mb)
+    Returns - tuple: (param_size_mb, buffer_size_mb, total_size_mb)
     """
     param_size = sum(p.nelement() * p.element_size() for p in model.parameters()) / 1024**2
     buffer_size = sum(b.nelement() * b.element_size() for b in model.buffers()) / 1024**2
@@ -61,18 +42,8 @@ def calculate_memory_usage(model):
 
 def calculate_model_statistics(model, input_shape=(3, 512, 512), device=None):
     """
-    Calculate and return comprehensive model statistics
-    
-    This function estimates model complexity in terms of parameters,
-    FLOPs, and memory usage.
-    
-    Args:
-        model (torch.nn.Module): PyTorch model
-        input_shape (tuple): Input shape for FLOP calculation (C, H, W)
-        device (torch.device, optional): Device for calculation
-        
-    Returns:
-        dict: Dictionary of model statistics
+    Calculate and return comprehensive model statistics 
+    Returns - dict: Dictionary of model statistics
     """
     try:
         from ptflops import get_model_complexity_info
@@ -134,14 +105,8 @@ def calculate_model_statistics(model, input_shape=(3, 512, 512), device=None):
 
 def print_model_summary(model, input_shape=(3, 512, 512)):
     """
-    Print comprehensive model summary with statistics
-    
-    Args:
-        model (torch.nn.Module): PyTorch model
-        input_shape (tuple): Input shape for FLOP calculation
-        
-    Returns:
-        dict: Dictionary of model statistics
+    Print comprehensive model summary with statistics 
+    Returns - dict: Dictionary of model statistics
     """
     # Calculate stats
     stats = calculate_model_statistics(model, input_shape)
