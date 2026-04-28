@@ -153,7 +153,7 @@ Inference produces:
 - Optional CSV summary file
 
 ## Citation 
-Bibtex: 
+BibTex: 
 ```
 @inproceedings{MHCNN2025,
   author    = {Agbodike, Obinna and Kuo, Chang-Fu and Chen, Jenhui},
