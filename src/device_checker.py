@@ -1,11 +1,5 @@
 """
-device_checker.py - Utilities for verifying device placement and managing multi-GPU usage.
-
-This module replaces 'device_verifier.py' and handles:
-1. Selecting available GPUs or falling back to CPU.
-2. Wrapping models in DataParallel automatically if multiple GPUs are detected.
-3. Utility methods for moving models/tensors to the correct device.
-4. Checking device placement to catch CPU vs. GPU mismatches.
+device_checker.py - Utilities for verifying device placement and managing multi-GPU usage 
 """
 
 import os
@@ -14,13 +8,7 @@ import torch.nn as nn
 
 class DeviceManager:
     """
-    Manages device selection, setup, and multi-GPU configurations for training and inference.
-
-    Attributes:
-        total_gpus (int): Total number of available GPUs.
-        gpu_ids (list): List of GPU indices to use.
-        device (torch.device): The primary device (CUDA or CPU).
-        multi_gpu (bool): True if multiple GPUs are available.
+    Manages device selection, setup, and multi-GPU configurations for training and inference 
     """
 
     def __init__(self, device_ids=None):
@@ -54,13 +42,8 @@ class DeviceManager:
 
     def setup_dataparallel(self, model):
         """
-        Wrap model with DataParallel if multiple GPUs are available.
-        
-        Args:
-            model (nn.Module): The model to wrap.
-        
-        Returns:
-            nn.Module: Possibly wrapped in DataParallel.
+        Wrap model with DataParallel if multiple GPUs are available 
+        Returns - nn.Module: Possibly wrapped in DataParallel.
         """
         # Check if model is already wrapped in DataParallel
         if isinstance(model, nn.DataParallel):
@@ -77,17 +60,11 @@ class DeviceManager:
         
         return model
 
-    # Add this utility function to handle state_dict from DataParallel models
+    # Utility function to handle state_dict from DataParallel models
     def fix_state_dict_for_loading(state_dict, model):
         """
-        Fixes state dictionary keys for loading into a model (handles DataParallel prefix).
-        
-        Args:
-            state_dict (dict): State dictionary to fix
-            model (nn.Module): Target model
-            
-        Returns:
-            dict: Fixed state dictionary
+        Fixes state dictionary keys for loading into a model (handles DataParallel prefix) 
+        Returns - ct: Fixed state dictionary
         """
         new_dict = {}
         
@@ -120,13 +97,8 @@ class DeviceManager:
     '''
     def setup_dataparallel(self, model):
         """
-        Wrap model with DataParallel if multiple GPUs are available.
-        
-        Args:
-            model (nn.Module): The model to wrap.
-        
-        Returns:
-            nn.Module: Possibly wrapped in DataParallel.
+        Wrap model with DataParallel if multiple GPUs are available       
+        Returns - nn.Module: Possibly wrapped in DataParallel.
         """
         # Move model to the primary device first
         model.to(self.device)
@@ -172,14 +144,8 @@ class DeviceManager:
 
 def move_to_device(model, device):
     """
-    Moves all model parameters and buffers to the specified device.
-
-    Args:
-        model (nn.Module): Model to move.
-        device (torch.device): Target device.
-
-    Returns:
-        nn.Module: Model on the correct device.
+    Moves all model parameters and buffers to the specified device 
+    Returns - nn.Module: Model on the correct device.
     """
     model.to(device)
     for param in model.parameters():
@@ -192,18 +158,8 @@ def move_to_device(model, device):
 
 def verify_device_placement(model, device, verbose=True):
     """
-    Verifies that all model parameters and buffers are on the specified device.
-
-    Args:
-        model (torch.nn.Module): Model to check.
-        device (torch.device): Expected device.
-        verbose (bool): Print details if True.
-
-    Returns:
-        bool: True if all components are on the correct device, otherwise raises an error.
-
-    Raises:
-        RuntimeError: If any component is found on an incorrect device.
+    Verifies that all model parameters and buffers are on the specified device 
+    Returns - bool: True if all components are on the correct device, otherwise raises an error 
     """
     mismatches = []
     for name, param in model.named_parameters():
