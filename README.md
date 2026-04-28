@@ -18,7 +18,19 @@ This repository contains the official implementation of joint 2D breast mammogra
 - **Performance Tracking**: Model statistics and visualization; Optimized data loading and batch processing
 
 
-## Usage
+## Usage 
+
+### Requirements
+```
+pip install -r requirements.txt
+```
+- PyTorch 2.0+
+- CUDA (for GPU support)
+- pydicom
+- OpenCV
+- albumentations
+- segmentation_models_multi_tasking
+- ptflops and thop (optional, for FLOP calculation)
 
 ### Training
 
@@ -121,32 +133,19 @@ The ``src`` codebase is divided into the following modular components:
 - **main.py**: Training script with multi-GPU support
 - **predict.py**: Inference script for analyzing mammograms
 
-### Dataset Analysis 
+### Preprocess Dataset Analysis 
 590 data samples from VinDr-Mammo benchmark 
 
 <table>
   <tr>
     <td align="center">
-      <img src="asset/dense_distrib.png" width="100%" />
+      <img src="asset/dense_distrib.png" width="90%" />
     </td>
     <td align="center">
-      <img src="asset/birads_distrib.png" width="100%" />
+      <img src="asset/birads_distrib.png" width="90%" />
     </td>
   </tr>
 </table>
-
-
-## Requirements
-
-pip install -r requirements.txt
-
-- PyTorch 2.0+
-- CUDA (for GPU support)
-- pydicom
-- OpenCV
-- albumentations
-- segmentation_models_multi_tasking
-- ptflops and thop (optional, for FLOP calculation)
 
 
 ## Output
