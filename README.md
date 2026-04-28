@@ -148,7 +148,7 @@ The ``src`` codebase is divided into the following modular components:
 </table>
 
 
-## Output
+## Outputs
 
 Training produces:
 - Model checkpoints (best, final, and periodic)
@@ -157,11 +157,21 @@ Training produces:
 - Density distribution plots
 - Detailed training summary
 
+<div align="center">
+  <img src="asset/seg_viz.png" alt="" width="100"/>
+</div>
+Training qualitative result
+
 Inference produces:
 - Segmentation overlays as DICOM files
 - Optional PNG images
 - JSON metrics file
 - Optional CSV summary file
+
+<div align="center">
+  <img src="asset/inference.png" alt="" width="100"/>
+</div>
+Inference qualitative result
 
 ## Citation 
 BibTex: 
