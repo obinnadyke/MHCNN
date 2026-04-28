@@ -1,7 +1,6 @@
 # Unified Breast Density Segmentation and BI-RADS Class Estimation in 2D Mammograms with Multi-Head Convolutional Neural Network (MHCNN)
 
-This repository contains implementation of a 2D breast mammography segmentation and BI-RADS classification system.
-The code is containerized with **Docker** and performs the following tasks:
+This repository contains the official implementation of joint 2D breast mammogram segmentation and BI-RADS classification radiomics. The codebase (also containerized with **Docker**) performs the following tasks: 
 
 1. Breast tissue segmentation (pixel-level)
 2. Breast density percentage regression (global prediction)
