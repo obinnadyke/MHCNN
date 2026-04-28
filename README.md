@@ -155,12 +155,18 @@ Training produces:
 - Training curves (loss, Dice, MAE, BI-RADS accuracy)
 - Confusion matrices for BI-RADS classification
 - Density distribution plots
-- Detailed training summary
+- Detailed training summary 
 
-<div align="center">
-  <img src="asset/seg_viz.png" alt="" width="100"/>
-</div>
-Training qualitative result
+<table>
+  <tr>
+    <td align="center">
+      <img src="asset/seg_viz.png" width="300%" />
+    </td>
+    <td align="center">
+      <img src="asset/inference1.png" width="300%" />
+    </td>
+  </tr>
+</table>
 
 Inference produces:
 - Segmentation overlays as DICOM files
@@ -168,10 +174,6 @@ Inference produces:
 - JSON metrics file
 - Optional CSV summary file
 
-<div align="center">
-  <img src="asset/inference.png" alt="" width="100"/>
-</div>
-Inference qualitative result
 
 ## Citation 
 BibTex: 
