@@ -158,8 +158,8 @@ Training produces:
 - Detailed training summary 
 
 <p align="center">
-  <img src="asset/seg_viz.png" width="200%" />
-  <img src="asset/inference1.png" width="300%" />
+  <img src="asset/seg_viz.png" width="100%" />
+  <img src="asset/inference1.png" width="120%" />
 </p>
 
 Inference produces:
