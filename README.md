@@ -103,7 +103,7 @@ The multi-head CNN model uses a triple-output-pathway:
 3. **Classification Path**: Explicitly classifies into BI-RADS categories
 
 <div align="center">
-  <img src="asset/mh_cnn.png" alt="" width="800"/>
+  <img src="asset/mh_cnn.png" alt="" width="700"/>
 </div>
 
 The encoder feature extraction is based on a shared ResNet-101 backbone. 
