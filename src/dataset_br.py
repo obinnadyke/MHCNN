@@ -1,9 +1,9 @@
 """
-dataset_br.py - Dataset classes for mammogram image processing
-
-This module provides dataset classes for loading, preprocessing, and augmenting 
-mammogram images and their corresponding density masks. It handles DICOM format 
-images and supports both training and inference workflows.
+dataset_br.py - Dataset classes for mammogram image processing (c) itrustal.com
+Provisions:
+Dataset classes for loading, preprocessing, and augmenting 
+mammogram images and their corresponding density masks. Handles DICOM format 
+images and supports both the training and inference workflows 
 """
 import os
 import numpy as np
@@ -22,20 +22,8 @@ from losses_metrics import percentage_to_birads_category
 
 class MammoDataset(Dataset):
     """
-    Dataset for loading and preprocessing mammogram images and density masks.
-
-    This enhanced dataset loader properly handles DICOM images, calculates density percentages,
-    and applies consistent preprocessing for both training and inference.
-
-    Args:
-        image_paths (list): List of paths to DICOM images.
-        mask_paths (list, optional): List of paths to DICOM masks (breast density).
-        augmentations (bool): Whether to apply data augmentation.
-        target_size (tuple): Target size for resizing images (height, width).
-        to_3channels (bool): Convert grayscale to 3-channel (for pretrained encoders).
-
-    Returns:
-        tuple: (image_tensor, mask_tensor, density_percentage_tensor, birads_category_tensor)
+    Dataset for loading and preprocessing mammogram images and density masks 
+    Returns - tuple: (image_tensor, mask_tensor, density_percentage_tensor, birads_category_tensor)
     """
 
     def __init__(
@@ -151,7 +139,7 @@ class MammoDataset(Dataset):
                 # Use dense_mask for segmentation training
                 mask = dense_mask
 
-                # Correct BI-RADS category calculation (0-indexed for modeling)
+                # BI-RADS category calculation (0-indexed for modeling)
                 birads_category = percentage_to_birads_category(density_percentage) - 1
                 birads_tensor = torch.tensor(birads_category, dtype=torch.long)
                 density_tensor = torch.tensor([density_percentage / 100.0], dtype=torch.float32)
@@ -201,9 +189,7 @@ class MammoDataset(Dataset):
     
     def load_dicom(self, path, is_mask=False):
         """
-        Load and preprocess DICOM image with improved mask handling.
-        
-        FIXED: Resolved array comparison issues and improved error handling
+        Load and preprocess DICOM image with improved mask handling 
         """
         try:
             # Load DICOM file with proper error handling
@@ -303,15 +289,8 @@ class MammoDataset(Dataset):
 
 class MammoEvaluation(Dataset):
     """
-    Dataset for inference/evaluation only (no masks required)
-
-    Args:
-        path (str): Base directory path
-        dataset (str): Dataset name/subfolder
-        split (str): Data split (typically 'test')
-
-    Returns:
-        tuple: (img_id, image_tensor)
+    Dataset for inference/evaluation only (no masks required) 
+    Returns - tuple: (img_id, image_tensor)
     """
     def __init__(self, path, dataset, split='test'):
         self.images_dir = os.path.join(path, dataset, split, 'input_image')
@@ -388,14 +367,8 @@ class MammoEvaluation(Dataset):
 
 def create_data_loaders(config, device_manager=None):
     """
-    Create train and validation data loaders with optimal configuration
-    
-    Args:
-        config (dict): Configuration dictionary with data paths and settings
-        device_manager (DeviceManager, optional): Device manager for GPU optimization
-        
-    Returns:
-        tuple: (train_dataloader, valid_dataloader, num_train_samples, num_valid_samples)
+    Create train and validation data loaders with optimal configuration 
+    Returns - tuple: (train_dataloader, valid_dataloader, num_train_samples, num_valid_samples)
     """
     import glob
     from sklearn.model_selection import train_test_split
@@ -442,8 +415,7 @@ def create_data_loaders(config, device_manager=None):
         target_size=target_size
     )
 
-    # ADDED: Analyze and plot density distribution
-    # This helps validate the density calculation
+    # Analyze and plot density distribution | validate the density calculation
     plot_density_distribution(train_dataset, valid_dataset, 
                              output_dir=os.path.join(data_root, 'analysis'))
 
@@ -489,8 +461,7 @@ def create_data_loaders(config, device_manager=None):
 
 def plot_density_distribution(train_dataset, valid_dataset, output_dir='./analysis', num_samples=500):
     """
-    Analyze and plot the density distribution in the datasets.
-    
+    Analyze and plot the density distribution in the datasets 
     Args:
         train_dataset (MammoDataset): Training dataset
         valid_dataset (MammoDataset): Validation dataset
