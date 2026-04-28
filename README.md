@@ -45,7 +45,7 @@ python predict.py \
     --save_csv
 ```
 
-2. Containerized (**Docker**) CMD: 
+2. Containerized CMD (**Docker**): 
 
 ```bash
 # Set up the package repository
