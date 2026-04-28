@@ -84,7 +84,7 @@ docker run --rm --gpus all \
 
 ## Model Architecture
 
-The multi-head CNN model uses a triple-pathway architecture:
+The multi-head CNN model uses a triple-output-pathway:
 
 1. **Segmentation Path**: Generates pixel-level density mask
 2. **Regression Path**: Predicts global density percentage
@@ -94,7 +94,7 @@ The multi-head CNN model uses a triple-pathway architecture:
   <img src="asset/mh_cnn.png" alt="" width="800"/>
 </div>
 
-The architecture is based on a standard segmentation backbone (ResNet-101 encoder), with additional classification and regression branches.
+The encoder architecture for feature extraction is based on a shared ResNet-101 backbone. 
 
 
 ## Project Structure
