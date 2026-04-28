@@ -155,7 +155,8 @@ BibTex:
 ```
 @inproceedings{MHCNN2025,
   author    = {Agbodike, Obinna and Kuo, Chang-Fu and Chen, Jenhui},
-  title     = {Deep Multi-Head CNN for Unified Breast Density Segmentation and BI-RADS Estimation in 2D Mammograms},
+  title     = {Deep Multi-Head CNN for Unified Breast Density
+               Segmentation and BI-RADS Estimation in 2D Mammograms},
   booktitle = {Medical Imaging with Deep Learning (MIDL)-Short Papers},
   year      = {2025},
   note      = {},
