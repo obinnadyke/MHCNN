@@ -1,5 +1,5 @@
 """
-param_stats.py - Utilities for model parameter counting and statistics (c) itrustal.com
+param_stats.py - Utilities for model parameter counting and statistics |(c) itrustal.com
 """
 import torch
 import numpy as np
