@@ -121,6 +121,14 @@ The ``src`` codebase is divided into the following modular components:
 - **main.py**: Training script with multi-GPU support
 - **predict.py**: Inference script for analyzing mammograms
 
+### Dataset Analysis 
+590 data samples from VinDr-Mammo benchmark 
+
+<p align="center">
+  <img src="asset/dense_distrib.png" width="200%" />
+  <img src="asset/birads_distrib.png" width="200%" />
+</p>
+
 
 ## Requirements
 
