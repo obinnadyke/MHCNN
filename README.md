@@ -159,7 +159,7 @@ BibTex:
                Segmentation and BI-RADS Estimation in 2D Mammograms},
   booktitle = {Medical Imaging with Deep Learning (MIDL)-Short Papers},
   year      = {2025},
-  note      = {},
+  address   = {Salt Lake City, Utah, USA},
   url       = {https://openreview.net/pdf?id=fwmKiBGvD5}
 }
 ```
