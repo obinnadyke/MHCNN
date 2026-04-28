@@ -94,7 +94,7 @@ The multi-head CNN model uses a triple-output-pathway:
   <img src="asset/mh_cnn.png" alt="" width="800"/>
 </div>
 
-The encoder architecture for feature extraction is based on a shared ResNet-101 backbone. 
+The encoder feature extraction is based on a shared ResNet-101 backbone. 
 
 
 ## Project Structure
