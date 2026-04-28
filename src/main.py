@@ -1,14 +1,7 @@
-"""
+""" 
 main.py - Training script for Breast Density Analysis
-
-This script trains a multi-task model for:
-1. Breast density segmentation (pixel-level prediction)
-2. Breast density percentage regression (global prediction)
-3. BI-RADS category classification (explicit categorical prediction)
-
-The model can be trained on multiple GPUs using nn.DataParallel.
-
-TRAINING COMMAND:
+Can be trained on multiple GPUs using nn.DataParallel 
+CMD: 
 python main.py --data_path /path/to/data \
                --train_batch_size 4 \
                --valid_batch_size 4 \
@@ -19,7 +12,7 @@ python main.py --data_path /path/to/data \
                --use_deep_decoder \
                --confusion_matrix_epochs 20 \
                --weight_decay 1e-4
-"""
+""" 
 
 import os
 import sys
@@ -33,7 +26,7 @@ import torch
 torch.autograd.set_detect_anomaly(True)
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim.lr_scheduler import CosineAnnealingLR, OneCycleLR  # Added OneCycleLR
+from torch.optim.lr_scheduler import CosineAnnealingLR, OneCycleLR 
 import matplotlib.pyplot as plt
 import seaborn as sns  # For visualization
 import json
@@ -139,7 +132,7 @@ def parse_args():
     parser.add_argument('--device_ids', default=None, type=str,
                         help='Comma-separated list of GPU IDs to use (e.g., "0,1,2").')
 
-    # ADDED: Weight decay parameter
+    # Weight decay parameter
     parser.add_argument('--weight_decay', default=1e-4, type=float, help='Weight decay parameter for optimizer')
 
     config = parser.parse_args()
@@ -252,7 +245,7 @@ def setup_training(config, model, device):
                     print(f"Warning: param in {name} on {param.device}, moving to {device}")
                     param.data = param.data.to(device)
 
-    # UPDATED: Better optimizer configuration
+    # Optimizer configuration
     if config.optimizer == 'AdamW':
         # AdamW with weight decay
         optimizer = optim.AdamW(
@@ -292,7 +285,7 @@ def setup_training(config, model, device):
         )
         print(f"Using {config.optimizer} optimizer with weight_decay={config.weight_decay}")
 
-    # UPDATED: Learning rate schedulers
+    # Learning rate schedulers
     if config.lr_schedule == 'steplr':
         lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
         print("Using StepLR scheduler: step_size=20, gamma=0.5")
@@ -360,7 +353,7 @@ def setup_training(config, model, device):
         )
         print(f"Using Cosine Annealing with {warmup_epochs} warm-up epochs")
 
-    # ADDED: OneCycleLR - Often has better convergence
+    # OneCycleLR 
     elif config.lr_schedule == 'onecycle':
         lr_scheduler = OneCycleLR(
             optimizer,
@@ -384,13 +377,11 @@ def setup_training(config, model, device):
 
 def collect_density_percentages(dataloader, device, max_batches=None):
     """
-    Collect actual breast density percentages from the dataset for distribution analysis.
-
+    Collect breast density percentages from the dataset for distribution analysis.
     Args:
         dataloader: DataLoader with dataset
         device: Device to move tensors to
         max_batches: Maximum number of batches to process (None=all)
-
     Returns:
         list: List of density percentages
     """
@@ -416,8 +407,7 @@ def collect_density_percentages(dataloader, device, max_batches=None):
 def train_epoch(model, train_dataloader, optimizer, multi_task_loss, device, max_grad_norm=1.0, accumulation_steps=4):
     """
     Run a single training epoch and return metrics.
-
-    UPDATED: Better gradient accumulation implementation, proper error handling, more debugging
+    Gradient accumulation implementation, proper error handling, more debugging
     """
     model.train()
     train_seg_loss = train_reg_loss = train_cls_loss = train_total_loss = 0.0
@@ -480,7 +470,7 @@ def train_epoch(model, train_dataloader, optimizer, multi_task_loss, device, max
                     nonzero_percent = (nonzero / mask_pixels) * 100
                     print(f"  Mask {i}: {nonzero_percent:.2f}% non-zero pixels")
 
-                # Add proper tuple handling for seg_outputs
+                # Tuple handling for seg_outputs
                 if isinstance(seg_outputs, tuple):
                     print(f"- Seg outputs is a tuple with {len(seg_outputs)} elements")
                     seg_main = seg_outputs[0]  # First element is usually the main prediction
@@ -504,7 +494,7 @@ def train_epoch(model, train_dataloader, optimizer, multi_task_loss, device, max
             # Backward pass
             total_loss.backward()
 
-            # Update metrics (use the original loss values, not the normalized ones)
+            # Update metrics (use the original loss values, not the normalized)
             batch_size = images.size(0)
             train_seg_loss += loss_seg.item() * batch_size
             train_reg_loss += loss_reg.item() * batch_size
@@ -586,7 +576,7 @@ def validate_epoch(model, valid_dataloader, multi_task_loss, device):
     """
     Run validation and return metrics with comprehensive error handling
 
-    UPDATED: Better validation metrics collection and progress tracking
+    Validation metrics collection and progress tracking
     """
     model.eval()
     val_seg_loss = val_reg_loss = val_cls_loss = val_total_loss = 0.0
@@ -712,7 +702,7 @@ def save_checkpoint(model, optimizer, epoch, metrics, train_history, config, pat
         'train_history': train_history
     }
 
-    # Add metrics if provided
+    # Add metrics (if provided)
     if metrics is not None:
         # Remove large numpy arrays and other non-serializable data
         save_metrics = {}
@@ -738,7 +728,6 @@ def create_training_plots(train_loss, valid_loss, train_dice, valid_dice,
                       train_reg_mae, valid_reg_mae, output_path, timestamp):
     """
     Create training history plots
-
     Args:
         train_loss (list): Training loss history
         valid_loss (list): Validation loss history
@@ -748,7 +737,6 @@ def create_training_plots(train_loss, valid_loss, train_dice, valid_dice,
         valid_reg_mae (list): Validation regression MAE history
         output_path (str): Base path for logs
         timestamp (str): Timestamp for unique filenames
-
     Returns:
         str: Path to saved plot
     """
@@ -801,13 +789,11 @@ def create_training_plots(train_loss, valid_loss, train_dice, valid_dice,
 def create_distribution_plot(train_densities, valid_densities, logs_file_path, timestamp):
     """
     Create density distribution plot
-
     Args:
         train_densities (list): List of density percentages in training set
         valid_densities (list): List of density percentages in validation set
         logs_file_path (str): Path to logs file
         timestamp (str): Timestamp for unique filenames
-
     Returns:
         str: Path to saved plot
     """
@@ -872,14 +858,12 @@ def create_distribution_plot(train_densities, valid_densities, logs_file_path, t
 
 def check_data_quality(train_dataloader, device, threshold=0.95, max_batches=5):
     """
-    Check the data quality before training
-
+    Check data quality before training
     Args:
         train_dataloader: DataLoader with training data
         device: Device to move tensors to
         threshold: Threshold for average density warning
         max_batches: Maximum number of batches to check
-
     Returns:
         bool: True if data quality is acceptable, False otherwise
     """
@@ -978,7 +962,7 @@ def write_summary(model_stats, training_time, best_score, final_metrics, paths, 
         f.write(f"Final Regression MAE: {final_metrics['reg_mae']:.2f}%\n")
         f.write(f"Final BI-RADS Accuracy: {final_metrics['birads_accuracy']:.2f}%\n")
 
-        # Add confusion matrix if available
+        # Add confusion matrix (if available)
         if 'confusion_matrix' in final_metrics and final_metrics['confusion_matrix'] is not None:
             f.write("\n=== Final BI-RADS Confusion Matrix ===\n")
             cm = final_metrics['confusion_matrix']
@@ -1047,7 +1031,7 @@ def main():
             return
 
         print("\n=== Setting up model ===")
-        # FIXED: Add use_deep_decoder to config
+        # Add 'use_deep_decoder' to config
         vars(config)['use_deep_decoder'] = config.use_deep_decoder
         model = setup_model(vars(config), device_manager)
         print(f"Model initialized on device: {next(model.parameters()).device}")
@@ -1092,7 +1076,7 @@ def main():
         if hasattr(multi_task_loss, 'device'):
             print(f"MultiTaskLoss device: {multi_task_loss.device}")
 
-        # FIXED: Higher max_grad_norm since we're using gradient accumulation
+        # Max_grad_norm due to using gradient accumulation
         max_grad_norm = 5.0
         print(f"Setting max_grad_norm={max_grad_norm} for gradient clipping")
 
@@ -1231,7 +1215,7 @@ def main():
                                   0.25 * (100 - min(val_metrics['reg_mae'], 100)) / 100 +
                                   0.25 * (val_metrics['birads_accuracy'] / 100))
 
-                # Updated logging line to include combined score
+                # Logging (include combined score)
                 print(f"{epoch+1}\t{train_metrics['total_loss']:.4f}\t{train_metrics['dice_score']:.4f}\t"
                       f"{train_metrics['reg_mae']:.2f}\t{train_metrics['birads_accuracy']:.2f}\t"
                       f"{val_metrics['total_loss']:.4f}\t{val_metrics['dice_score']:.4f}\t"
@@ -1260,7 +1244,7 @@ def main():
                         config, paths['checkpoint']
                     )
 
-                # FIXED: Generate confusion matrix periodically
+                # Generate confusion matrix periodically?
                 if (epoch + 1) % config.confusion_matrix_epochs == 0 or epoch == 0:
                     # Generate confusion matrix if available
                     if 'confusion_matrix' in val_metrics and val_metrics['confusion_matrix'] is not None:
@@ -1307,7 +1291,7 @@ def main():
         print(f"- Final model: {paths['final']}")
         print(f"- Latest checkpoint: {paths['checkpoint']}")
 
-        # Hook for t-SNE if user sets --tsne_plot
+        # Hook for t-SNE (if user sets --tsne_plot) 
 
         if config.tsne_plot:
             print("\n[INFO] Generating t-SNE plot from validation embeddings...")
