@@ -1,8 +1,7 @@
 """
-density_model.py - Enhanced density model with multi-task outputs and deeper architecture
-
-Defines:
-1. EnhancedDensityModel: Base + Regressor + Classifier with deeper network
+density_model.py - Deep density model with multi-task outputs |(c) itrustal.com
+Provisions:
+1. DensityModel: Base + Regressor + Classifier with deeper network
 2. setup_model: Creates the model and wraps with DataParallel if multiple GPUs exist
 """
 
@@ -15,9 +14,6 @@ from device_checker import move_to_device, verify_device_placement
 class DeepUNetDecoder(nn.Module):
     """
     Deep UNet decoder with more skip connections and channels
-
-    This custom decoder adds more depth to the standard segmentation model
-    for better feature representation and learning capacity.
     """
     def __init__(self, encoder_channels, decoder_channels=(256, 128, 64, 32, 16)):
         super().__init__()
@@ -67,9 +63,7 @@ class DeepUNetDecoder(nn.Module):
     def forward(self, features):
         """
         Forward pass through decoder
-
-        Args:
-            features: List of features from encoder blocks
+        Args - features: List of features from encoder blocks
         """
         # Reverse features from encoder to use them in correct order
         features = features[::-1]
@@ -259,13 +253,9 @@ class EnhancedDensityModel(nn.Module):
 
     def forward(self, x):
         """
-        Forward pass with full gradient flow through the encoder.
-
-        Args:
-            x (torch.Tensor): Input tensor of shape [B, 3, H, W]
-
-        Returns:
-            tuple: (segmentation_output, regression_output, classification_output)
+        Forward pass with full gradient flow through the encoder 
+        Args - x (torch.Tensor): Input tensor of shape [B, 3, H, W]
+        Returns - tuple: (segmentation_output, regression_output, classification_output)
         """
         if self.use_deep_decoder:
             # Forward through encoder
@@ -311,13 +301,13 @@ class EnhancedDensityModel(nn.Module):
             channels = [f.shape[1] for f in feats]
             return channels
         except Exception as e:
-            print(f"[EnhancedDensityModel] WARNING: Could not extract encoder channels. Using default. Error: {e}")
+            print(f"[DensityModel] WARNING: Could not extract encoder channels. Using default. Error: {e}")
             return [64, 128, 256, 512, 2048]  # Default for ResNet
 
 def setup_model(config, device_manager):
     """
     Create the base segmentation model from segmentation_models_multi_tasking,
-    then wrap it inside EnhancedDensityModel.
+    then wrap it inside DensityModel.
     """
     import segmentation_models_multi_tasking as smp
 
@@ -338,7 +328,7 @@ def setup_model(config, device_manager):
         decoder_use_batchnorm=True
     ).to(device)
 
-    # 2) Wrap in EnhancedDensityModel
+    # 2) Wrap in DensityModel
     model = EnhancedDensityModel(
         base_model,
         output_size=config.get('output_size', 512),
