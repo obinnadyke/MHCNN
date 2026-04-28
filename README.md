@@ -93,7 +93,7 @@ The multi-head CNN model uses a triple-pathway architecture:
 3. **Classification Path**: Explicitly classifies into BI-RADS categories
 
 <div align="center">
-  <img src="asset/mh_cnn.pdf" alt="" width="700"/>
+  <img src="asset/mh_cnn.png" />
 </div>
 
 The architecture is based on a standard segmentation backbone (ResNet-101 encoder), with additional classification and regression branches.
