@@ -163,7 +163,7 @@ Training produces:
       <img src="asset/seg_viz.png" width="300%" />
     </td>
     <td align="center">
-      <img src="asset/inference1.png" width="300%" />
+      <img src="asset/inference1.png" width="400%" />
     </td>
   </tr>
 </table>
