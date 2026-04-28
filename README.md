@@ -2,7 +2,7 @@
 
 This repository contains the official implementation of joint 2D breast mammogram segmentation and BI-RADS classification radiomics published at [2025 MIDL](https://openreview.net/pdf?id=fwmKiBGvD5) Short-Papers. This codebase performs the following tasks: 
 
-1. Breast tissue segmentation (pixel-level)
+1. Breast calcification tissue segmentation (pixel-level)
 2. Breast density percentage regression (global prediction)
 3. BI-RADS category classification (categorical prediction)
 
