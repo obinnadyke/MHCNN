@@ -133,7 +133,7 @@ The ``src`` codebase is divided into the following modular components:
 - **main.py**: Training script with multi-GPU support
 - **predict.py**: Inference script for analyzing mammograms
 
-### Preprocess Dataset Analysis 
+### Data Preprocess Analysis 
 590 data samples from [VinDr-Mammo](https://physionet.org/content/vindr-mammo/1.0.0/) benchmark 
 
 <table>
