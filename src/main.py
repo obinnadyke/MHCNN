@@ -1,6 +1,6 @@
 """ 
-main.py - MHCNN Training script |(c) itrustal.com
-CMD: 
+main.py - MH-CNN Training script |(c) itrustal.com
+Runtime CMD: 
 python main.py --data_path /path/to/data \
                --train_batch_size 4 \
                --valid_batch_size 4 \
@@ -52,7 +52,7 @@ from losses_metrics import (
 # Suppress warnings
 warnings.filterwarnings("ignore")
 
-# Default hyperparameters - UPDATED defaults
+# Default hyperparameters 
 DEFAULT_CONFIG = {
     'optimizer': 'AdamW', 
     'loss_function': 'FocalTverskyLoss', 
@@ -684,7 +684,7 @@ def validate_epoch(model, valid_dataloader, multi_task_loss, device):
 
 
 def save_checkpoint(model, optimizer, epoch, metrics, train_history, config, path):
-    """Save model checkpoint."""
+    """Save model checkpoint """
     if not isinstance(config, dict):
         config = vars(config)
 
@@ -1120,7 +1120,7 @@ def main():
             for epoch in range(config.num_epochs):
                 print(f"\nEpoch: {epoch+1}/{config.num_epochs}")
 
-                # FIXED: Better phased training strategy that more consistently reaches good solutions
+                # Phased training strategy 
                 if epoch < 5:
                     # First 5 epochs: Just train segmentation to establish a good foundation
                     print(f"segmentation-only phase {epoch+1}/5")
