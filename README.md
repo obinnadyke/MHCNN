@@ -93,40 +93,12 @@ The multi-head CNN model uses a triple-pathway architecture:
 2. **Regression Path**: Predicts global density percentage
 3. **Classification Path**: Explicitly classifies into BI-RADS categories
 
-----------------------------
-MH_CNN Model Architecture
-----------------------------
-Input Image (B, C, H, W)
-  │
-  ▼
-╔══════════════════════════════╗
-║         Shared Encoder       ║  ← (Feature Extractor: ResNet101)
-╚══════════════════════════════╝
-   │
-   ├──► Segmentation Head (Unet)
-   │       ├── Convolutions (Conv + BatchNorm + ReLU)
-   │       ├── Upsampling Layers (Deconv / Interpolation)
-   │       ├── Final Activation (Sigmoid)
-   │       └── **Output: Segmentation Mask** (B, 1, H, W)
-   │
-   ├──► Regression Head (Dense Layers)
-   │       ├── Global Average Pooling (GAP)
-   │       ├── Fully Connected (FC1) → Activation (ReLU)
-   │       ├── Fully Connected (FC2) → Activation (Linear)
-   │       └── **Output: Density Percentage** (0...100%)
-   │
-   └──► Classification Head (BI-RADS)
-           ├── Global Average Pooling (GAP)
-           ├── Fully Connected (FC1) → Activation (ReLU)
-           ├── Fully Connected (FC2) → Activation (Softmax)
-           └── **Output: BI-RADS Class (1...4)**  
-
 
 The architecture is based on a standard segmentation backbone (default: Unet with ResNet-101 encoder), with additional classification and regression branches attached to the encoder features.
 
 
 ## Project Structure
-
+```
 Mammo-Model/  
 ├── Dockerfile   
 ├── requirements.txt
@@ -136,6 +108,7 @@ Mammo-Model/
 ├── data/
 ├── output/
 └── README.md
+```
 
 The ``src`` codebase is divided into the following modular components:
 
