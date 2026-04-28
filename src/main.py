@@ -1,6 +1,5 @@
 """ 
-main.py - Training script for Breast Density Analysis
-Can be trained on multiple GPUs using nn.DataParallel 
+main.py - MHCNN Training script |(c) itrustal.com
 CMD: 
 python main.py --data_path /path/to/data \
                --train_batch_size 4 \
@@ -43,8 +42,7 @@ from losses_metrics import (
     MultiTaskLoss,
     compute_metrics_batch,
     FocalTverskyLoss,
-    percentage_to_birads_category,
-    # New imports from updated losses_metrics.py
+    percentage_to_birads_category, 
     create_confusion_matrix_plot,
     create_learning_rate_plot,
     create_epoch_confusion_matrices,
@@ -56,19 +54,19 @@ warnings.filterwarnings("ignore")
 
 # Default hyperparameters - UPDATED defaults
 DEFAULT_CONFIG = {
-    'optimizer': 'AdamW',  # CHANGED: Default to AdamW for better training
-    'loss_function': 'FocalTverskyLoss',  # Already using FocalTverskyLoss
-    'lr': 5e-5,  # Slightly increased for AdamW
-    'lr_schedule': 'onecycle',  # CHANGED: Default to OneCycleLR for faster convergence
+    'optimizer': 'AdamW', 
+    'loss_function': 'FocalTverskyLoss', 
+    'lr': 5e-5,  
+    'lr_schedule': 'onecycle', 
     'segmentation_model': 'Unet',
     'encoder': 'resnet101',
     'pretrained_weights': 'imagenet',
     'activation_function': 'sigmoid',
-    'lambda_reg': 0.3,  # Weight for regression loss
-    'lambda_cls': 0.2,  # Weight for BI-RADS classification loss
-    'early_stopping': 20,   # Early stopping patience (epochs)
-    'output_size': 512,     # Output image size
-    'use_deep_decoder': True,  # ADDED: Use deeper decoder option
+    'lambda_reg': 0.3,        # Weight for regression loss
+    'lambda_cls': 0.2,        # Weight for BI-RADS classification loss
+    'early_stopping': 20,     # Early stopping patience (epochs)
+    'output_size': 512,       # Output image size
+    'use_deep_decoder': True, # Deeper decoder option
 }
 
 
@@ -382,8 +380,7 @@ def collect_density_percentages(dataloader, device, max_batches=None):
         dataloader: DataLoader with dataset
         device: Device to move tensors to
         max_batches: Maximum number of batches to process (None=all)
-    Returns:
-        list: List of density percentages
+    Returns - list: List of density percentages
     """
     densities = []
 
@@ -450,9 +447,7 @@ def train_epoch(model, train_dataloader, optimizer, multi_task_loss, device, max
             if first_batch:
                 print("\nDiagnostic Information (First Batch):")
                 print(f"- Images: {images.shape}, range [{images.min().item():.4f}, {images.max().item():.4f}]")
-                print(f"- Masks: {masks.shape}, values: min={masks.min().item()}, max={masks.max().item()}")
-
-                # Add these additional debug lines:
+                print(f"- Masks: {masks.shape}, values: min={masks.min().item()}, max={masks.max().item()}") 
                 print(f"- Density targets: {density_targets.cpu().numpy().flatten()}")
                 print(f"- BIRADS targets: {birads_targets.cpu().numpy()}")
 
@@ -574,9 +569,7 @@ def train_epoch(model, train_dataloader, optimizer, multi_task_loss, device, max
 
 def validate_epoch(model, valid_dataloader, multi_task_loss, device):
     """
-    Run validation and return metrics with comprehensive error handling
-
-    Validation metrics collection and progress tracking
+    Validation metrics collection and progress tracking with error handling
     """
     model.eval()
     val_seg_loss = val_reg_loss = val_cls_loss = val_total_loss = 0.0
@@ -737,8 +730,7 @@ def create_training_plots(train_loss, valid_loss, train_dice, valid_dice,
         valid_reg_mae (list): Validation regression MAE history
         output_path (str): Base path for logs
         timestamp (str): Timestamp for unique filenames
-    Returns:
-        str: Path to saved plot
+    Returns - str: Path to saved plot
     """
     import matplotlib.pyplot as plt
     from pathlib import Path
@@ -794,8 +786,7 @@ def create_distribution_plot(train_densities, valid_densities, logs_file_path, t
         valid_densities (list): List of density percentages in validation set
         logs_file_path (str): Path to logs file
         timestamp (str): Timestamp for unique filenames
-    Returns:
-        str: Path to saved plot
+    Returns - str: Path to saved plot
     """
     import matplotlib.pyplot as plt
     import numpy as np
@@ -819,7 +810,7 @@ def create_distribution_plot(train_densities, valid_densities, logs_file_path, t
     plt.savefig(plot_path, dpi=300, bbox_inches='tight')
     plt.close()
 
-    # Also create a distribution plot by BI-RADS category
+    # Create distribution plot by BI-RADS category
     plt.figure(figsize=(10, 6))
 
     # Convert to BI-RADS categories
@@ -864,8 +855,7 @@ def check_data_quality(train_dataloader, device, threshold=0.95, max_batches=5):
         device: Device to move tensors to
         threshold: Threshold for average density warning
         max_batches: Maximum number of batches to check
-    Returns:
-        bool: True if data quality is acceptable, False otherwise
+    Returns - bool: True if data quality is acceptable, False otherwise
     """
     import numpy as np
 
@@ -929,8 +919,7 @@ def check_data_quality(train_dataloader, device, threshold=0.95, max_batches=5):
 
 def write_summary(model_stats, training_time, best_score, final_metrics, paths, config):
     """
-    Write training summary to file.
-
+    Write training summary to file 
     Args:
         model_stats (dict): Model statistics
         training_time (float): Total training time in seconds
@@ -1001,7 +990,7 @@ def write_summary(model_stats, training_time, best_score, final_metrics, paths, 
 
 def main():
     """
-    Main training function with improved error handling and debugging
+    Main training function with error handling and debugging
     """
     try:
         # Parse command-line arguments
