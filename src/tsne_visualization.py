@@ -1,3 +1,5 @@
+t-SNE Viz |(c) itrustal.com
+
 import os
 import numpy as np
 import torch
@@ -109,15 +111,6 @@ class FeatureExtractor(nn.Module):
 def extract_features_and_metadata(model, dataloader, device, max_samples=500):
     """
     Extract features and metadata from the dataset for tSNE visualization
-    
-    Args:
-        model: Trained model
-        dataloader: DataLoader with samples
-        device: Device to run model on
-        max_samples: Maximum number of samples to process
-        
-    Returns:
-        dict: Dictionary with features and metadata
     """
     # Create feature extractor
     feature_extractor = FeatureExtractor(model, use_deep_decoder=True)
@@ -188,17 +181,7 @@ def extract_features_and_metadata(model, dataloader, device, max_samples=500):
 
 def create_tsne_visualization(features_data, output_dir, timestamp, perplexity=30, n_iter=1000):
     """
-    Create tSNE visualization from extracted features
-    
-    Args:
-        features_data: Dictionary with features and metadata
-        output_dir: Directory to save visualizations
-        timestamp: Timestamp for filenames
-        perplexity: tSNE perplexity parameter
-        n_iter: Number of iterations for tSNE
-        
-    Returns:
-        dict: Dictionary with paths to saved visualizations
+    Create tSNE visualization from extracted features 
     """
     # Create output directory
     plots_dir = Path(output_dir) / 'plots'
@@ -337,21 +320,10 @@ def create_tsne_visualization(features_data, output_dir, timestamp, perplexity=3
     }
 
 
-# Function to add to your training script
+# Function to add in training script (optional) 
 def generate_tsne_visualizations(model, valid_dataloader, device, output_dir, timestamp, num_samples=500):
     """
-    Generate tSNE visualizations from a trained model
-    
-    Args:
-        model: Trained model
-        valid_dataloader: Validation dataloader
-        device: Device to run on
-        output_dir: Directory to save visualizations
-        timestamp: Timestamp for filenames
-        num_samples: Maximum number of samples to process
-        
-    Returns:
-        dict: Dictionary with paths to saved visualizations
+    Generate tSNE visualizations from a trained model 
     """
     print("\nGenerating tSNE visualizations...")
     
