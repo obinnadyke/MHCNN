@@ -1,8 +1,5 @@
 """
-plots.py - Visualization utilities for breast density training
-
-This script handles plotting and visualization of training metrics.
-It creates and saves plots for loss curves, dice coefficients, and regression errors.
+plots.py - Visualization utilities for breast density training (c) itrustal.com 
 """
 import os
 import numpy as np
@@ -18,16 +15,8 @@ def create_tsne_plot(
     filename: str = "tsne_plot.png"
 ) -> str:
     """
-    Perform t-SNE on the given embeddings and create a 2D scatter plot.
-
-    Args:
-        embeddings (np.ndarray): Shape (N, feature_dim). Embeddings from the model.
-        birads_labels (np.ndarray): Shape (N,). Discrete BI-RADS categories (1..4).
-        output_path (str): Directory to save the plot.
-        filename (str): Name of the output image file (PNG).
-
-    Returns:
-        str: The path where the t-SNE plot is saved.
+    Perform t-SNE on the given embeddings and create a 2D scatter plot 
+    Returns - str: The path where the t-SNE plot is saved.
     """
     # 1) Run t-SNE (2D)
     tsne = TSNE(n_components=2, perplexity=30, n_iter=1000, random_state=42)
@@ -70,20 +59,8 @@ def create_training_plots(
     timestamp
 ):
     """
-    Create and save training curves.
-
-    Args:
-        train_loss (list): Training loss values per epoch
-        valid_loss (list): Validation loss values per epoch
-        train_dice (list): Training dice coefficient values per epoch
-        valid_dice (list): Validation dice coefficient values per epoch
-        train_reg_mae (list): Training regression MAE values per epoch
-        valid_reg_mae (list): Validation regression MAE values per epoch
-        output_path (str): Directory where plots will be saved
-        timestamp (str): Timestamp for unique filename
-
-    Returns:
-        str: Path to saved plot file
+    Create and save training curves 
+    Returns - str: Path to saved plot file
     """
     epochs_range = range(1, len(train_loss) + 1)
 
@@ -142,16 +119,8 @@ def create_training_plots(
 
 def create_distribution_plot(train_densities, valid_densities, output_path, timestamp):
     """
-    Create histograms showing the distribution of breast density percentages in the dataset.
-
-    Args:
-        train_densities (list): List of breast density percentages in training set
-        valid_densities (list): List of breast density percentages in validation set
-        output_path (str): Directory where plots will be saved
-        timestamp (str): Timestamp for unique filename
-
-    Returns:
-        str: Path to saved plot file
+    Create histograms showing the distribution of breast density percentages in the dataset 
+    Returns - str: Path to saved plot file
     """
     plt.figure(figsize=(10, 6))
 
@@ -211,16 +180,8 @@ def create_distribution_plot(train_densities, valid_densities, output_path, time
 
 def create_confusion_matrix(predictions, ground_truth, output_path, timestamp):
     """
-    Create a confusion matrix for BI-RADS classifications.
-
-    Args:
-        predictions (list): Predicted BI-RADS categories (1-4)
-        ground_truth (list): Ground truth BI-RADS categories (1-4)
-        output_path (str): Directory where plots will be saved
-        timestamp (str): Timestamp for unique filename
-
-    Returns:
-        str: Path to saved plot file
+    Create a confusion matrix for BI-RADS classifications 
+    Returns - str: Path to saved plot file
     """
     from sklearn.metrics import confusion_matrix
     import seaborn as sns
@@ -259,18 +220,8 @@ def create_confusion_matrix(predictions, ground_truth, output_path, timestamp):
 
 def create_epoch_confusion_matrices(val_predictions, val_targets, best_epoch, final_epoch, output_path, timestamp):
     """
-    Create confusion matrices for both best and final epochs.
-
-    Args:
-        val_predictions (list of lists): Predictions for each epoch
-        val_targets (list of lists): Targets for each epoch
-        best_epoch (int): Index of best epoch
-        final_epoch (int): Index of final epoch
-        output_path (str): Directory where plots will be saved
-        timestamp (str): Timestamp for unique filename
-
-    Returns:
-        tuple: Paths to saved best and final confusion matrices
+    Create confusion matrices for both best and final epochs 
+    Returns - tuple: Paths to saved best and final confusion matrices
     """
     # Create best epoch confusion matrix
     best_preds = val_predictions[best_epoch]
@@ -297,15 +248,8 @@ def create_epoch_confusion_matrices(val_predictions, val_targets, best_epoch, fi
 
 def create_learning_rate_plot(lr_history, output_path, timestamp):
     """
-    Create a plot showing learning rate changes over epochs.
-
-    Args:
-        lr_history (list): Learning rate values per epoch
-        output_path (str): Directory where plot will be saved
-        timestamp (str): Timestamp for unique filename
-
-    Returns:
-        str: Path to saved plot file
+    Create a plot showing learning rate changes over epochs 
+    Returns - str: Path to saved plot file
     """
     plt.figure(figsize=(10, 6))
 
@@ -331,18 +275,8 @@ def create_learning_rate_plot(lr_history, output_path, timestamp):
 
 def visualize_segmentations(model, dataloader, device, output_path, timestamp, num_samples=4):
     """
-    Create visualizations of segmentation predictions vs. ground truth.
-
-    Args:
-        model (nn.Module): Trained model
-        dataloader (DataLoader): Validation dataloader
-        device (torch.device): Device to run inference on
-        output_path (str): Path to save visualization
-        timestamp (str): Timestamp for unique filename
-        num_samples (int): Number of samples to visualize
-
-    Returns:
-        str: Path to saved visualization
+    Create visualizations of segmentation predictions vs ground truth 
+    Returns - str: Path to saved visualization
     """
     import torch
     import numpy as np
