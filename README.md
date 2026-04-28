@@ -93,7 +93,7 @@ The multi-head CNN model uses a triple-pathway architecture:
 3. **Classification Path**: Explicitly classifies into BI-RADS categories
 
 <div align="center">
-  <img src="asset/mh_cnn.png" />
+  <img src="asset/mh_cnn.png" alt="" width=""/>
 </div>
 
 The architecture is based on a standard segmentation backbone (ResNet-101 encoder), with additional classification and regression branches.
@@ -101,7 +101,7 @@ The architecture is based on a standard segmentation backbone (ResNet-101 encode
 
 ## Project Structure
 ```
-Mammo-Model/  
+MH-CNN Model/  
 ├── Dockerfile   
 ├── requirements.txt
 ├── .dockerignore  
@@ -151,3 +151,8 @@ Inference produces:
 - Optional PNG images
 - JSON metrics file
 - Optional CSV summary file
+
+
+
+## Acknowledgements
+This work was sponsored by CAIM: Linkou, Chang Gung Memorial Hospital, under project grant no. CLRPG3H0016
