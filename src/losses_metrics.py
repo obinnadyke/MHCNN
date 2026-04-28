@@ -1,5 +1,5 @@
 """
-losses_metrics.py - Collection of metrics and loss functions for breast density analysis
+losses_metrics.py - metrics and loss functions for breast density analysis |(c) itrustal.com
 Provisions: 
 1. Evaluation metrics (Dice, IoU, accuracy, etc.)
 2. Custom loss functions (FocalTverskyLoss, FocalRegLoss, MultiTaskLoss)
