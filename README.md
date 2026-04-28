@@ -157,16 +157,10 @@ Training produces:
 - Density distribution plots
 - Detailed training summary 
 
-<table>
-  <tr>
-    <td align="center">
-      <img src="asset/seg_viz.png" width="300%" />
-    </td>
-    <td align="center">
-      <img src="asset/inference1.png" width="400%" />
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="asset/seg_viz.png" width="300%" />
+  <img src="asset/inference1.png" width="450%" />
+</p>
 
 Inference produces:
 - Segmentation overlays as DICOM files
