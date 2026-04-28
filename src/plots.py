@@ -1,5 +1,5 @@
 """
-plots.py - Visualization utilities for breast density training (c) itrustal.com 
+plots.py - Visualization utility for the MHCNN |(c) itrustal.com 
 """
 import os
 import numpy as np
