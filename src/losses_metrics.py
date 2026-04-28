@@ -1,12 +1,9 @@
 """
 losses_metrics.py - Collection of metrics and loss functions for breast density analysis
-
-This module provides:
+Provisions: 
 1. Evaluation metrics (Dice, IoU, accuracy, etc.)
 2. Custom loss functions (FocalTverskyLoss, FocalRegLoss, MultiTaskLoss)
-3. BI-RADS classification utilities (percentage to category conversion)
-
-These functions can be used by both training and inference scripts.
+3. BI-RADS classification utilities (percentage to category conversion) 
 """
 import torch
 import torch.nn as nn
@@ -21,16 +18,7 @@ from pathlib import Path
 
 def dice_coef(pred, target, smooth=1e-6, threshold=0.5):
     """
-    Calculate Dice coefficient for segmentation, handling various input shapes and formats.
-
-    Args:
-        pred (torch.Tensor or tuple): Predicted mask(s)
-        target (torch.Tensor or tuple): Ground truth mask(s)
-        smooth (float): Smoothing factor to avoid division by zero
-        threshold (float): Threshold for binary segmentation
-
-    Returns:
-        float: Dice coefficient score (0-1 range)
+    Calculate Dice coefficient for segmentation, handling various input shapes and formats
     """
     # 1) If pred or target is a tuple/list, pick the first element
     if isinstance(pred, (list, tuple)):
@@ -115,15 +103,6 @@ def dice_coef(pred, target, smooth=1e-6, threshold=0.5):
 def iou_score(pred, target, smooth=1e-6, threshold=0.5):
     """
     Calculate Intersection over Union (IoU) for segmentation
-
-    Args:
-        pred (torch.Tensor): Predicted mask
-        target (torch.Tensor): Ground truth mask
-        smooth (float): Smoothing factor to avoid division by zero
-        threshold (float): Threshold for binary segmentation
-
-    Returns:
-        float: IoU score
     """
     # Handle tuple inputs
     if isinstance(pred, (list, tuple)):
@@ -154,12 +133,10 @@ def iou_score(pred, target, smooth=1e-6, threshold=0.5):
 def accuracy(pred, target, threshold=0.5):
     """
     Calculate pixel-wise accuracy for segmentation
-
     Args:
         pred (torch.Tensor): Predicted mask
         target (torch.Tensor): Ground truth mask
         threshold (float): Threshold for binary segmentation
-
     Returns:
         float: Accuracy score
     """
@@ -191,15 +168,6 @@ def accuracy(pred, target, threshold=0.5):
 def sensitivity(pred, target, smooth=1e-6, threshold=0.5):
     """
     Calculate sensitivity (recall) for segmentation
-
-    Args:
-        pred (torch.Tensor): Predicted mask
-        target (torch.Tensor): Ground truth mask
-        smooth (float): Smoothing factor to avoid division by zero
-        threshold (float): Threshold for binary segmentation
-
-    Returns:
-        float: Sensitivity score
     """
     # Handle tuple inputs
     if isinstance(pred, (list, tuple)):
@@ -231,16 +199,7 @@ def sensitivity(pred, target, smooth=1e-6, threshold=0.5):
 
 def specificity(pred, target, smooth=1e-6, threshold=0.5):
     """
-    Calculate specificity for segmentation
-
-    Args:
-        pred (torch.Tensor): Predicted mask
-        target (torch.Tensor): Ground truth mask
-        smooth (float): Smoothing factor to avoid division by zero
-        threshold (float): Threshold for binary segmentation
-
-    Returns:
-        float: Specificity score
+    Calculate specificity for segmentation 
     """
     # Handle tuple inputs
     if isinstance(pred, (list, tuple)):
@@ -273,15 +232,8 @@ def specificity(pred, target, smooth=1e-6, threshold=0.5):
 def percentage_to_birads_category(percentage):
     """
     Convert density percentage to BI-RADS category number
-
-    FIXED: Improved boundaries for more accurate categorization
-    based on ACR BI-RADS Atlas 5th edition
-
-    Args:
-        percentage (float): Breast density percentage (0-100)
-
-    Returns:
-        int: BI-RADS category (1-4)
+    Args - percentage (float): Breast density percentage (0-100)
+    Returns - int: BI-RADS category (1-4)
     """
     if percentage < 25:
         return 1            # "BI-RADS A (Almost entirely fatty)"
@@ -296,14 +248,8 @@ def percentage_to_birads_category(percentage):
 def get_birads_from_percentage(percentage):
     """
     Convert density percentage to BI-RADS category and description
-
-    New function to return both category and descriptive text
-
-    Args:
-        percentage (float): Breast density percentage (0-100)
-
-    Returns:
-        tuple: (category, description)
+    Args - percentage (float): Breast density percentage (0-100)
+    Returns - tuple: (category, description)
     """
     category = percentage_to_birads_category(percentage)
 
@@ -321,7 +267,6 @@ def compute_metrics_batch(pred_masks, true_masks, pred_densities=None, true_dens
                          pred_birads=None, true_birads=None):
     """
     Compute all relevant metrics for a batch of predictions
-
     Args:
         pred_masks (torch.Tensor): Predicted segmentation masks
         true_masks (torch.Tensor): Ground truth segmentation masks
@@ -329,7 +274,6 @@ def compute_metrics_batch(pred_masks, true_masks, pred_densities=None, true_dens
         true_densities (torch.Tensor, optional): Ground truth density percentages
         pred_birads (torch.Tensor, optional): Predicted BI-RADS classes
         true_birads (torch.Tensor, optional): Ground truth BI-RADS classes
-
     Returns:
         dict: Dictionary of computed metrics
     """
@@ -421,17 +365,7 @@ def compute_metrics_batch(pred_masks, true_masks, pred_densities=None, true_dens
 
 def create_confusion_matrix_plot(cm, output_path, title='BI-RADS Confusion Matrix'):
     """
-    Create and save a confusion matrix plot
-
-    ADDED: New function for better visualization of classification performance
-
-    Args:
-        cm (numpy.ndarray): Confusion matrix
-        output_path (str): Path to save the plot
-        title (str): Plot title
-
-    Returns:
-        str: Path to saved plot
+    Create and save a confusion matrix plot 
     """
     plt.figure(figsize=(8, 6))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
@@ -454,16 +388,7 @@ def create_confusion_matrix_plot(cm, output_path, title='BI-RADS Confusion Matri
 
 class FocalTverskyLoss(nn.Module):
     """
-    Enhanced Focal Tversky Loss for handling imbalanced segmentation.
-
-    This loss focuses more on hard examples and gives flexibility in handling
-    false positives vs false negatives through alpha/beta parameters.
-
-    Args:
-        alpha (float): Weight for false positives (default: 0.3)
-        beta (float): Weight for false negatives (default: 0.7)
-        gamma (float): Focal parameter (default: 0.75)
-        smooth (float): Smoothing factor (default: 1e-6)
+    Focal Tversky Loss for handling imbalanced segmentation 
     """
     def __init__(self, alpha=0.3, beta=0.7, gamma=0.75, smooth=1e-6):
         super().__init__()
@@ -511,13 +436,6 @@ class FocalTverskyLoss(nn.Module):
 class FocalRegLoss(nn.Module):
     """
     Focal Regression Loss with numerical stability improvements
-
-    This loss applies focal weighting to samples with higher errors,
-    helping to address imbalanced regression targets.
-
-    Args:
-        gamma (float): Focal parameter. Higher values increase focus on hard examples.
-        reduction (str): Reduction method ('mean', 'sum', 'none')
     """
     def __init__(self, gamma=2.0, reduction='mean', eps=1e-6):
         super(FocalRegLoss, self).__init__()
@@ -561,14 +479,7 @@ class FocalRegLoss(nn.Module):
 
 class MultiTaskLoss(nn.Module):
     """
-    Combined loss for segmentation, regression, and classification with safeguards.
-
-    Args:
-        seg_loss (nn.Module): Segmentation loss function
-        reg_loss (nn.Module): Regression loss function for density percentage
-        lambda_reg (float): Weight for regression loss component (default: 0.2)
-        lambda_cls (float): Weight for classification loss component (default: 0.3)
-        device (torch.device): Device to place tensors on
+    Combined loss for segmentation, regression, and classification with safeguards 
     """
     def __init__(self, seg_loss, reg_loss, lambda_reg=0.2, lambda_cls=0.3, device=None):
         super(MultiTaskLoss, self).__init__()
@@ -580,7 +491,7 @@ class MultiTaskLoss(nn.Module):
         self.seg_loss = seg_loss
         self.reg_loss = reg_loss
 
-        # FIXED: Higher weight for less frequent classifications with balanced weights
+        # Balanced weight for less frequent classifications 
         class_weights = torch.tensor([1.5, 1.2, 1.0, 1.3], device=self.device)
         self.cls_loss = nn.CrossEntropyLoss(weight=class_weights)  # For BI-RADS classification
 
@@ -594,18 +505,7 @@ class MultiTaskLoss(nn.Module):
 
     def forward(self, pred_seg, target_seg, pred_reg, target_reg, pred_cls=None, target_cls=None):
         """
-        Calculate multi-task loss with safeguards against negative values.
-
-        Args:
-            pred_seg (torch.Tensor or tuple): Predicted segmentation masks
-            target_seg (torch.Tensor or tuple): Target segmentation masks
-            pred_reg (torch.Tensor): Predicted regression values
-            target_reg (torch.Tensor): Target regression values
-            pred_cls (torch.Tensor, optional): Predicted BI-RADS logits
-            target_cls (torch.Tensor, optional): Target BI-RADS classes
-
-        Returns:
-            tuple: (total_loss, seg_loss, reg_loss, cls_loss)
+        Calculate multi-task loss with safeguards against negative values 
         """
         # Handle tuple outputs (common in some segmentation models)
         if isinstance(pred_seg, tuple):
@@ -656,19 +556,6 @@ def create_epoch_confusion_matrices(val_predictions_history, val_targets_history
                                    best_epoch_idx, final_epoch_idx, logs_file_path, timestamp):
     """
     Generate confusion matrix plots for best and final epochs
-
-    ADDED: New function for better visualization of classification performance
-
-    Args:
-        val_predictions_history (list): List of prediction arrays for each epoch
-        val_targets_history (list): List of target arrays for each epoch
-        best_epoch_idx (int): Index of best epoch
-        final_epoch_idx (int): Index of final epoch
-        logs_file_path (str): Path to logs file
-        timestamp (str): Timestamp for unique filenames
-
-    Returns:
-        tuple: (best_cm_path, final_cm_path) - Paths to saved confusion matrix plots
     """
     plot_dir = Path(logs_file_path).parent / 'plots'
     plot_dir.mkdir(parents=True, exist_ok=True)
@@ -722,17 +609,7 @@ def create_epoch_confusion_matrices(val_predictions_history, val_targets_history
 
 def create_learning_rate_plot(lr_history, logs_file_path, timestamp):
     """
-    Create learning rate plot
-
-    ADDED: New function to visualize learning rate changes during training
-
-    Args:
-        lr_history (list): Learning rate values for each epoch
-        logs_file_path (str): Path to logs file
-        timestamp (str): Timestamp for unique filenames
-
-    Returns:
-        str: Path to saved plot
+    Create learning rate plot to visualize learning rate changes during training 
     """
     plot_dir = Path(logs_file_path).parent / 'plots'
     plot_dir.mkdir(parents=True, exist_ok=True)
@@ -755,19 +632,6 @@ def create_learning_rate_plot(lr_history, logs_file_path, timestamp):
 def visualize_segmentations(model, dataloader, device, logs_file_path, timestamp, num_samples=3):
     """
     Create segmentation visualization plots
-
-    ADDED: New function to visualize model predictions
-
-    Args:
-        model (torch.nn.Module): Trained model
-        dataloader (DataLoader): DataLoader with validation data
-        device (torch.device): Device to run model on
-        logs_file_path (str): Path to logs file
-        timestamp (str): Timestamp for unique filenames
-        num_samples (int): Number of samples to visualize
-
-    Returns:
-        str: Path to saved plot
     """
     plot_dir = Path(logs_file_path).parent / 'plots'
     plot_dir.mkdir(parents=True, exist_ok=True)
