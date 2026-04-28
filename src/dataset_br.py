@@ -1,5 +1,5 @@
 """
-dataset_br.py - Dataset classes for mammogram image processing (c) itrustal.com
+dataset_br.py - Dataset classes for mammogram image processing |(c) itrustal.com
 Provisions:
 Dataset classes for loading, preprocessing, and augmenting 
 mammogram images and their corresponding density masks. Handles DICOM format 
